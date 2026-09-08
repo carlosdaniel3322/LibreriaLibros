@@ -1,0 +1,76 @@
+{
+  "info": {
+    "_postman_id": "3bfe9d47-bb1f-4e4b-91df-9d8f9b7a0111",
+    "name": "tiendaLibros",
+    "description": "Coleccion para probar los recursos Libros y Revistas.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Libros",
+      "item": [
+        { "name": "1. Listar libros", "request": { "method": "GET", "url": "{{baseUrl}}/api/libros" } },
+        {
+          "name": "2. Crear libro",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Clean Code\",\n  \"autor\": \"Robert C. Martin\",\n  \"isbn\": \"9780132350884\",\n  \"precio\": 50.00,\n  \"stock\": 3\n}" },
+            "url": "{{baseUrl}}/api/libros"
+          }
+        },
+        { "name": "3. Obtener libro por id", "request": { "method": "GET", "url": "{{baseUrl}}/api/libros/1" } },
+        {
+          "name": "4. Actualizar libro",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Clean Code 2da Edicion\",\n  \"autor\": \"Robert C. Martin\",\n  \"isbn\": \"9780132350884\",\n  \"precio\": 55.00,\n  \"stock\": 4\n}" },
+            "url": "{{baseUrl}}/api/libros/1"
+          }
+        },
+        { "name": "5. Eliminar libro", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/libros/1" } },
+        { "name": "Error 404 libro inexistente", "request": { "method": "GET", "url": "{{baseUrl}}/api/libros/999" } },
+        {
+          "name": "Error 400 libro invalido",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"\",\n  \"autor\": \"\",\n  \"isbn\": \"123\",\n  \"precio\": -1,\n  \"stock\": -2\n}" },
+            "url": "{{baseUrl}}/api/libros"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Revistas",
+      "item": [
+        { "name": "1. Listar revistas", "request": { "method": "GET", "url": "{{baseUrl}}/api/revistas" } },
+        {
+          "name": "2. Crear revista",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"National Geographic\",\n  \"editorial\": \"National Geographic Partners\",\n  \"issn\": \"0027-9358\",\n  \"precio\": 18.00,\n  \"stock\": 8\n}" },
+            "url": "{{baseUrl}}/api/revistas"
+          }
+        },
+        { "name": "3. Obtener revista por id", "request": { "method": "GET", "url": "{{baseUrl}}/api/revistas/1" } },
+        {
+          "name": "4. Actualizar revista",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"National Geographic Edicion Especial\",\n  \"editorial\": \"National Geographic Partners\",\n  \"issn\": \"0027-9358\",\n  \"precio\": 20.00,\n  \"stock\": 6\n}" },
+            "url": "{{baseUrl}}/api/revistas/1"
+          }
+        },
+        { "name": "5. Eliminar revista", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/revistas/1" } },
+        { "name": "Error 404 revista inexistente", "request": { "method": "GET", "url": "{{baseUrl}}/api/revistas/999" } }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" }
+  ]
+}
