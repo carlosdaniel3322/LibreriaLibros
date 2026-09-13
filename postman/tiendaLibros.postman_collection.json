@@ -2,16 +2,21 @@
   "info": {
     "_postman_id": "3bfe9d47-bb1f-4e4b-91df-9d8f9b7a0111",
     "name": "tiendaLibros",
-    "description": "Coleccion para probar los recursos Libros y Revistas.",
+    "description": "Coleccion con pruebas automaticas para Libros y Revistas.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
       "name": "Libros",
       "item": [
-        { "name": "1. Listar libros", "request": { "method": "GET", "url": "{{baseUrl}}/api/libros" } },
+        {
+          "name": "1. Listar libros",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Debe responder 200', function () {", "    pm.response.to.have.status(200);", "});", "pm.test('Debe devolver una lista', function () {", "    pm.expect(pm.response.json()).to.be.an('array');", "});"] } }],
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/libros" }
+        },
         {
           "name": "2. Crear libro",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Debe responder 201', function () {", "    pm.response.to.have.status(201);", "});", "const libro = pm.response.json();", "pm.test('Debe devolver el libro creado', function () {", "    pm.expect(libro.titulo).to.eql('Clean Code');", "    pm.expect(libro.id).to.be.a('number');", "});", "pm.collectionVariables.set('libroId', libro.id);"] } }],
           "request": {
             "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
@@ -19,20 +24,34 @@
             "url": "{{baseUrl}}/api/libros"
           }
         },
-        { "name": "3. Obtener libro por id", "request": { "method": "GET", "url": "{{baseUrl}}/api/libros/1" } },
+        {
+          "name": "3. Obtener libro por id",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Debe responder 200', function () {", "    pm.response.to.have.status(200);", "});", "pm.test('Debe devolver el libro correcto', function () {", "    pm.expect(pm.response.json().id).to.eql(Number(pm.collectionVariables.get('libroId')));", "});"] } }],
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/libros/{{libroId}}" }
+        },
         {
           "name": "4. Actualizar libro",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Debe responder 200', function () {", "    pm.response.to.have.status(200);", "});", "pm.test('Debe actualizar el titulo', function () {", "    pm.expect(pm.response.json().titulo).to.eql('Clean Code 2da Edicion');", "});"] } }],
           "request": {
             "method": "PUT",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Clean Code 2da Edicion\",\n  \"autor\": \"Robert C. Martin\",\n  \"isbn\": \"9780132350884\",\n  \"precio\": 55.00,\n  \"stock\": 4\n}" },
-            "url": "{{baseUrl}}/api/libros/1"
+            "url": "{{baseUrl}}/api/libros/{{libroId}}"
           }
         },
-        { "name": "5. Eliminar libro", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/libros/1" } },
-        { "name": "Error 404 libro inexistente", "request": { "method": "GET", "url": "{{baseUrl}}/api/libros/999" } },
+        {
+          "name": "5. Eliminar libro",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Debe responder 204', function () {", "    pm.response.to.have.status(204);", "});"] } }],
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/api/libros/{{libroId}}" }
+        },
+        {
+          "name": "Error 404 libro inexistente",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Debe responder 404', function () {", "    pm.response.to.have.status(404);", "});"] } }],
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/libros/999999" }
+        },
         {
           "name": "Error 400 libro invalido",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Debe responder 400', function () {", "    pm.response.to.have.status(400);", "});"] } }],
           "request": {
             "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
@@ -45,9 +64,14 @@
     {
       "name": "Revistas",
       "item": [
-        { "name": "1. Listar revistas", "request": { "method": "GET", "url": "{{baseUrl}}/api/revistas" } },
+        {
+          "name": "1. Listar revistas",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Debe responder 200', function () {", "    pm.response.to.have.status(200);", "});", "pm.test('Debe devolver una lista', function () {", "    pm.expect(pm.response.json()).to.be.an('array');", "});"] } }],
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/revistas" }
+        },
         {
           "name": "2. Crear revista",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Debe responder 201', function () {", "    pm.response.to.have.status(201);", "});", "const revista = pm.response.json();", "pm.test('Debe devolver la revista creada', function () {", "    pm.expect(revista.titulo).to.eql('National Geographic');", "    pm.expect(revista.id).to.be.a('number');", "});", "pm.collectionVariables.set('revistaId', revista.id);"] } }],
           "request": {
             "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
@@ -55,18 +79,31 @@
             "url": "{{baseUrl}}/api/revistas"
           }
         },
-        { "name": "3. Obtener revista por id", "request": { "method": "GET", "url": "{{baseUrl}}/api/revistas/1" } },
+        {
+          "name": "3. Obtener revista por id",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Debe responder 200', function () {", "    pm.response.to.have.status(200);", "});", "pm.test('Debe devolver la revista correcta', function () {", "    pm.expect(pm.response.json().id).to.eql(Number(pm.collectionVariables.get('revistaId')));", "});"] } }],
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/revistas/{{revistaId}}" }
+        },
         {
           "name": "4. Actualizar revista",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Debe responder 200', function () {", "    pm.response.to.have.status(200);", "});", "pm.test('Debe actualizar el titulo', function () {", "    pm.expect(pm.response.json().titulo).to.eql('National Geographic Edicion Especial');", "});"] } }],
           "request": {
             "method": "PUT",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"National Geographic Edicion Especial\",\n  \"editorial\": \"National Geographic Partners\",\n  \"issn\": \"0027-9358\",\n  \"precio\": 20.00,\n  \"stock\": 6\n}" },
-            "url": "{{baseUrl}}/api/revistas/1"
+            "url": "{{baseUrl}}/api/revistas/{{revistaId}}"
           }
         },
-        { "name": "5. Eliminar revista", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/revistas/1" } },
-        { "name": "Error 404 revista inexistente", "request": { "method": "GET", "url": "{{baseUrl}}/api/revistas/999" } }
+        {
+          "name": "5. Eliminar revista",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Debe responder 204', function () {", "    pm.response.to.have.status(204);", "});"] } }],
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/api/revistas/{{revistaId}}" }
+        },
+        {
+          "name": "Error 404 revista inexistente",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Debe responder 404', function () {", "    pm.response.to.have.status(404);", "});"] } }],
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/revistas/999999" }
+        }
       ]
     }
   ],
