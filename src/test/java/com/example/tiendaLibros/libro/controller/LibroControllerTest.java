@@ -119,5 +119,10 @@ class LibroControllerTest {
 		public void eliminarLibro(Long id) {
 			// No-op for standalone controller tests.
 		}
+
+		@Override
+		public java.util.List<LibroResponse> actualizarLibrosEnLote(java.util.List<LibroService.LibroUpdateItem> items) {
+			return java.util.List.of();
+		}
 	}
 }

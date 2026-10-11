@@ -16,4 +16,9 @@ public interface RevistaService {
 	RevistaResponse actualizarRevista(Long id, RevistaRequest request);
 
 	void eliminarRevista(Long id);
+
+	List<RevistaResponse> actualizarRevistasEnLote(List<RevistaUpdateItem> items);
+
+	record RevistaUpdateItem(Long id, RevistaRequest request) {
+	}
 }

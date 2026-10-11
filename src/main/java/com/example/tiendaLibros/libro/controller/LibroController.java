@@ -66,4 +66,8 @@ public class LibroController {
 		libroService.eliminarLibro(id);
 		return ResponseEntity.noContent().build();
 	}
+	@PutMapping("/lote")
+	public ResponseEntity<List<LibroResponse>> actualizarEnLote(@Valid @RequestBody List<LibroService.LibroUpdateItem> items) {
+		return ResponseEntity.ok(libroService.actualizarLibrosEnLote(items));
+	}
 }

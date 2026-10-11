@@ -18,4 +18,9 @@ public interface LibroService {
 	LibroResponse actualizarLibro(Long id, LibroRequest request);
 
 	void eliminarLibro(Long id);
+
+	List<LibroResponse> actualizarLibrosEnLote(List<LibroUpdateItem> items);
+
+	record LibroUpdateItem(Long id, LibroRequest request) {
+	}
 }

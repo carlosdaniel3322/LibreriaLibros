@@ -96,5 +96,10 @@ class RevistaControllerTest {
 		public void eliminarRevista(Long id) {
 			// No-op for standalone controller tests.
 		}
+
+		@Override
+		public java.util.List<RevistaResponse> actualizarRevistasEnLote(java.util.List<RevistaService.RevistaUpdateItem> items) {
+			return java.util.List.of();
+		}
 	}
 }

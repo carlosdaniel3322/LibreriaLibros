@@ -1,8 +1,10 @@
 package com.example.tiendaLibros.revista.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.tiendaLibros.revista.dto.RevistaRequest;
 import com.example.tiendaLibros.revista.dto.RevistaResponse;
@@ -45,6 +47,19 @@ public class RevistaServiceImpl implements RevistaService {
 	public void eliminarRevista(Long id) {
 		revistaRepository.findById(id).orElseThrow(() -> new RevistaNotFoundException(id));
 		revistaRepository.deleteById(id);
+	}
+
+	@Override
+	@Transactional
+	public List<RevistaResponse> actualizarRevistasEnLote(List<RevistaUpdateItem> items) {
+		List<RevistaResponse> resultados = new ArrayList<>();
+		for (RevistaUpdateItem item : items) {
+			revistaRepository.findById(item.id())
+					.orElseThrow(() -> new RevistaNotFoundException(item.id()));
+			Revista actualizada = revistaRepository.save(toModel(item.id(), item.request()));
+			resultados.add(toResponse(actualizada));
+		}
+		return resultados;
 	}
 
 	private Revista toModel(Long id, RevistaRequest request) {

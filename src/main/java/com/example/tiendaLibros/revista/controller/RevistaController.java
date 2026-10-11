@@ -56,4 +56,8 @@ public class RevistaController {
 		revistaService.eliminarRevista(id);
 		return ResponseEntity.noContent().build();
 	}
+	@PutMapping("/lote")
+	public ResponseEntity<List<RevistaResponse>> actualizarEnLote(@Valid @RequestBody List<RevistaService.RevistaUpdateItem> items) {
+		return ResponseEntity.ok(revistaService.actualizarRevistasEnLote(items));
+	}
 }

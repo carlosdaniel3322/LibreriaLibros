@@ -1,8 +1,10 @@
 package com.example.tiendaLibros.libro.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.tiendaLibros.libro.dto.LibroRequest;
 import com.example.tiendaLibros.libro.dto.LibroResponse;
@@ -63,6 +65,19 @@ public class LibroServiceImpl implements LibroService {
 				.orElseThrow(() -> new LibroNotFoundException(id));
 
 		libroRepository.deleteById(id);
+	}
+
+	@Override
+	@Transactional
+	public List<LibroResponse> actualizarLibrosEnLote(List<LibroUpdateItem> items) {
+		List<LibroResponse> resultados = new ArrayList<>();
+		for (LibroUpdateItem item : items) {
+			libroRepository.findById(item.id())
+					.orElseThrow(() -> new LibroNotFoundException(item.id()));
+			Libro actualizado = libroRepository.save(toModel(item.id(), item.request()));
+			resultados.add(toResponse(actualizado));
+		}
+		return resultados;
 	}
 
 	private Libro toModel(Long id, LibroRequest request) {
