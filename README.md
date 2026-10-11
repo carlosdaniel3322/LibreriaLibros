@@ -2,14 +2,14 @@
 
 API REST inicial para una libreria, pensada como primer avance grupal de la materia.
 
-El proyecto usa Spring Boot y una arquitectura simple `Controller -> Service -> Repository`, con persistencia en memoria para no depender de JPA en esta etapa.
+El proyecto usa Spring Boot y una arquitectura `Controller -> Service -> Repository`, con persistencia en PostgreSQL mediante JPA/Hibernate.
 
 ## Requisitos cubiertos
 
-- Modelo simple sin JPA.
+- Modelo simple con JPA/Hibernate.
 - Matriz de endpoints.
 - Proyecto Spring Boot ejecutable.
-- CRUD en memoria.
+- CRUD persistente en PostgreSQL.
 - TDD minimo con tests de servicio y MockMvc.
 - Caso RED -> GREEN -> REFACTOR.
 - Coleccion de Postman.
@@ -75,6 +75,13 @@ La API queda disponible en:
 
 - `http://localhost:8080/api/libros`
 - `http://localhost:8080/api/revistas`
+
+### Configuracion de PostgreSQL
+
+La aplicacion se conecta a la base de datos local `biblioteca_pf2026` en el puerto `5432`.
+En `src/main/resources/application.properties`, configura la contrasena de tu usuario PostgreSQL mediante la variable `DB_PASSWORD` o reemplaza temporalmente el valor de `spring.datasource.password` para realizar la primera ejecucion.
+
+Hibernate crea o actualiza automaticamente las tablas `libros` y `revistas`.
 
 > Nota: el proyecto esta configurado para Java 24 o superior.
 
@@ -146,4 +153,4 @@ postman/
 
 ## Observacion importante
 
-Como el repositorio es en memoria, los datos se pierden cuando se detiene la aplicacion. Esto es intencional en esta etapa del avance.
+Los datos se guardan en PostgreSQL, por lo que permanecen disponibles despues de detener y volver a iniciar la aplicacion.

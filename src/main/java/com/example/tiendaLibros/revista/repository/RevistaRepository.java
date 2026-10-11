@@ -1,17 +1,7 @@
 package com.example.tiendaLibros.revista.repository;
 
-import java.util.List;
-import java.util.Optional;
-
+import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.tiendaLibros.revista.model.Revista;
 
-public interface RevistaRepository {
-
-	Revista save(Revista revista);
-
-	List<Revista> findAll();
-
-	Optional<Revista> findById(Long id);
-
-	void deleteById(Long id);
+public interface RevistaRepository extends JpaRepository<Revista, Long> {
 }
