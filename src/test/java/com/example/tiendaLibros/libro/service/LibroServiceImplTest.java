@@ -41,6 +41,17 @@ class LibroServiceImplTest {
 	}
 
 	@Test
+	void debeBuscarLibrosPorTituloOAutor() {
+		Libro libro = new Libro(1L, "Spring Boot", "Craig Walls", "9781617292545", new BigDecimal("60.00"), 2);
+		when(libroRepository.buscarPorTituloOAutor("spring")).thenReturn(java.util.List.of(libro));
+
+		var resultado = libroService.buscarLibros("spring");
+
+		assertEquals(1, resultado.size());
+		assertEquals("Spring Boot", resultado.getFirst().titulo());
+	}
+
+	@Test
 	void debeActualizarYReportarLibroInexistente() {
 		Libro existente = new Libro(1L, "Spring", "Autor", "1234567890123", new BigDecimal("40.00"), 5);
 		Libro actualizadoEnRepositorio = new Libro(1L, "Spring Boot", "Autor", "1234567890123", new BigDecimal("45.00"), 4);

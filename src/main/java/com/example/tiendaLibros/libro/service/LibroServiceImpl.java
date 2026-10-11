@@ -34,6 +34,14 @@ public class LibroServiceImpl implements LibroService {
 	}
 
 	@Override
+	public List<LibroResponse> buscarLibros(String texto) {
+		return libroRepository.buscarPorTituloOAutor(texto)
+				.stream()
+				.map(this::toResponse)
+				.toList();
+	}
+
+	@Override
 	public LibroResponse obtenerLibroPorId(Long id) {
 		return libroRepository.findById(id)
 				.map(this::toResponse)

@@ -30,6 +30,11 @@
           "request": { "method": "GET", "url": "{{baseUrl}}/api/libros/{{libroId}}" }
         },
         {
+          "name": "Buscar libros por titulo o autor (JPQL)",
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Debe responder 200', function () {", "    pm.response.to.have.status(200);", "});", "pm.test('Debe encontrar el libro creado', function () {", "    pm.expect(pm.response.json()[0].titulo).to.eql('Clean Code');", "});"] } }],
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/libros/buscar?texto=clean" }
+        },
+        {
           "name": "4. Actualizar libro",
           "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Debe responder 200', function () {", "    pm.response.to.have.status(200);", "});", "pm.test('Debe actualizar el titulo', function () {", "    pm.expect(pm.response.json().titulo).to.eql('Clean Code 2da Edicion');", "});"] } }],
           "request": {

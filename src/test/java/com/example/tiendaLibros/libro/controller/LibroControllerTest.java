@@ -98,6 +98,11 @@ class LibroControllerTest {
 		}
 
 		@Override
+		public java.util.List<LibroResponse> buscarLibros(String texto) {
+			return java.util.List.of();
+		}
+
+		@Override
 		public LibroResponse obtenerLibroPorId(Long id) {
 			if (notFoundId != null && notFoundId.equals(id)) {
 				throw new LibroNotFoundException(id);

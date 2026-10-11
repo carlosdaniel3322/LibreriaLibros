@@ -11,6 +11,8 @@ public interface LibroService {
 
 	List<LibroResponse> listarLibros();
 
+	List<LibroResponse> buscarLibros(String texto);
+
 	LibroResponse obtenerLibroPorId(Long id);
 
 	LibroResponse actualizarLibro(Long id, LibroRequest request);

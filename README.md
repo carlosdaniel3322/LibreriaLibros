@@ -38,6 +38,7 @@ Relacion conceptual:
 | Metodo | URI | Entrada | Respuesta | HTTP |
 | --- | --- | --- | --- | --- |
 | GET | `/api/libros` | Ninguna | Lista de libros | 200 |
+| GET | `/api/libros/buscar?texto={texto}` | Texto por query | Libros cuyo titulo o autor coincide | 200 |
 | GET | `/api/libros/{id}` | `id` por path | Un libro | 200 |
 | POST | `/api/libros` | `LibroRequest` JSON | Libro creado | 201 |
 | PUT | `/api/libros/{id}` | `id` por path + `LibroRequest` JSON | Libro actualizado | 200 |
@@ -103,6 +104,16 @@ Content-Type: application/json
   "stock": 3
 }
 ```
+
+## Consulta JPQL
+
+`LibroRepository` incluye una consulta JPQL que busca libros por titulo o autor, ignorando mayusculas y minusculas:
+
+```http
+GET /api/libros/buscar?texto=spring
+```
+
+La consulta se implementa con `@Query` y devuelve los resultados ordenados por titulo.
 
 ## Coleccion de Postman
 
