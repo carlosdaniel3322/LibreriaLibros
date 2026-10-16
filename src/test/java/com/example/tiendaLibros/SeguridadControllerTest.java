@@ -22,9 +22,16 @@ import com.example.tiendaLibros.libro.controller.LibroController;
 import com.example.tiendaLibros.libro.dto.LibroResponse;
 import com.example.tiendaLibros.libro.service.LibroService;
 import com.example.tiendaLibros.service.TokenService;
+import com.example.tiendaLibros.service.UsuarioDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.context.annotation.Bean;
+import org.springframework.boot.test.context.TestConfiguration;
 
 @WebMvcTest(controllers = { AuthController.class, LibroController.class }, properties = "jwt.secret=clave-prueba-jwt-segura-para-ejecutar-tests-automaticos-123456789")
-@Import({ SecurityConfig.class, TokenService.class })
+@Import({ SecurityConfig.class, TokenService.class, SeguridadControllerTest.TestConfig.class })
 class SeguridadControllerTest {
 
 	@Autowired
@@ -76,5 +83,29 @@ class SeguridadControllerTest {
 							}
 							"""))
 				.andExpect(status().isForbidden());
+	}
+
+	@TestConfiguration
+	static class TestConfig {
+		@Bean
+		public UserDetailsService userDetailsService() {
+			org.springframework.security.crypto.password.PasswordEncoder encoder = new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder();
+			UserDetails lector = User.builder()
+					.username("lector")
+					.password(encoder.encode("lector123"))
+					.roles("LECTOR")
+					.build();
+			UserDetails editor = User.builder()
+					.username("editor")
+					.password(encoder.encode("editor123"))
+					.roles("LECTOR", "EDITOR")
+					.build();
+			UserDetails admin = User.builder()
+					.username("admin")
+					.password(encoder.encode("admin123"))
+					.roles("LECTOR", "EDITOR", "ADMIN")
+					.build();
+			return new InMemoryUserDetailsManager(lector, editor, admin);
+		}
 	}
 }

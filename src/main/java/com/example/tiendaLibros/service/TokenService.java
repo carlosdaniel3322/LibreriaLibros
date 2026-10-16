@@ -22,9 +22,7 @@ public class TokenService {
 
     public String generateToken(Authentication authentication) {
         Instant now = Instant.now();
-        // Guardamos solo el nombre del rol (LECTOR/EDITOR/ADMIN). El prefijo ROLE_ lo agrega
-        // el JwtAuthenticationConverter de SecurityConfig al validar el token; si lo dejamos aqui
-        // el rol quedaria ROLE_ROLE_LECTOR y las rutas protegidas devolverian 403.
+
         List<String> roles = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .map(authority -> authority.startsWith("ROLE_") ? authority.substring("ROLE_".length()) : authority)
