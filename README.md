@@ -124,3 +124,28 @@ Las pruebas incluyen servicios con repositorios simulados, contratos HTTP y segu
 Importa `postman/tiendaLibros.postman_collection.json`.
 
 La carpeta `Autenticacion JWT` inicia sesion como `LECTOR`, `EDITOR` y `ADMIN`, y guarda los tokens automaticamente. Ejecuta primero esa carpeta o toda la coleccion desde Collection Runner. Las solicitudes de Libros y Revistas ya usan el token adecuado y validan sus codigos HTTP con scripts de prueba.
+
+## Frontend Angular
+
+El frontend se encuentra en la carpeta `frontend/` y esta organizado por responsabilidades:
+
+```text
+frontend/src/app
+  core/                 autenticacion, guard, interceptor y servicios HTTP
+  features/auth/        pantalla de inicio de sesion
+  features/home/        panel principal
+  features/books/       lista y formulario de libros
+  features/magazines/   lista y formulario de revistas
+```
+
+Incluye las rutas principales `/login`, `/`, `/libros` y `/revistas`. Las rutas del catalogo requieren un token JWT; el interceptor envia el token automaticamente. Los formularios de libros y revistas validan los campos obligatorios, longitud de ISBN/ISSN, precio y stock, y muestran los mensajes de error al usuario.
+
+Para ejecutarlo, primero inicia el backend en el puerto `8080`. Luego, desde otra terminal:
+
+```powershell
+cd frontend
+npm install
+npm start
+```
+
+Abre `http://localhost:4200`. Inicia sesion con `lector`, `editor` o `admin`. El rol controla las acciones visibles: `LECTOR` consulta; `EDITOR` crea y actualiza; `ADMIN` tambien elimina.
