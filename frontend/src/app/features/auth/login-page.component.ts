@@ -12,7 +12,7 @@ import { AuthService } from '../../core/auth.service';
       @if (show('username')) { <small class="field-error">Ingresa tu usuario.</small> }
       <label>Contraseña<input type="password" formControlName="password" autocomplete="current-password" /></label>
       @if (show('password')) { <small class="field-error">Ingresa tu contraseña.</small> }
-      @if (error) { <p class="alert error">{{ error }}</p> }
+
       <button class="primary" [disabled]="loading">{{ loading ? 'Ingresando...' : 'Ingresar' }}</button>
       <p class="help">Usuarios: lector, editor o admin.</p>
     </form></section>
@@ -20,13 +20,13 @@ import { AuthService } from '../../core/auth.service';
 })
 export class LoginPageComponent {
   readonly form = new FormBuilder().nonNullable.group({ username: ['', Validators.required], password: ['', Validators.required] });
-  loading = false; error = '';
+  loading = false;
   constructor(private readonly auth: AuthService, private readonly router: Router) {}
   show(control: 'username' | 'password') { const item = this.form.controls[control]; return item.invalid && (item.touched || item.dirty); }
   submit() {
     if (this.form.invalid) { this.form.markAllAsTouched(); return; }
-    this.loading = true; this.error = '';
+    this.loading = true;
     const { username, password } = this.form.getRawValue();
-    this.auth.login(username, password).subscribe({ next: () => void this.router.navigateByUrl('/'), error: () => { this.error = 'Credenciales inválidas o API no disponible.'; this.loading = false; } });
+    this.auth.login(username, password).subscribe({ next: () => void this.router.navigateByUrl('/'), error: () => { this.loading = false; } });
   }
 }

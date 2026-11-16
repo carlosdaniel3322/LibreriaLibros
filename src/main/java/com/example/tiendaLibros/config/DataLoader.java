@@ -1,5 +1,7 @@
 package com.example.tiendaLibros.config;
 
+import com.example.tiendaLibros.revista.model.Revista;
+import com.example.tiendaLibros.revista.repository.RevistaRepository;
 import com.example.tiendaLibros.usuario.Rol;
 import com.example.tiendaLibros.usuario.RolRepository;
 import com.example.tiendaLibros.usuario.Usuario;
@@ -9,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 @Configuration
@@ -17,6 +21,7 @@ public class DataLoader {
     @Bean
     CommandLineRunner initDatabase(UsuarioRepository usuarioRepository,
                                    RolRepository rolRepository,
+                                   RevistaRepository revistaRepository,
                                    PasswordEncoder passwordEncoder) {
         return args -> {
             if (usuarioRepository.count() == 0) {
@@ -34,6 +39,14 @@ public class DataLoader {
                 Usuario admin = new Usuario(null, "admin", passwordEncoder.encode("admin123"), true, Set.of(rolLector, rolEditor, rolAdmin));
 
                 usuarioRepository.saveAll(Set.of(lector, editor, admin));
+            }
+
+            if (revistaRepository.count() == 0) {
+                revistaRepository.saveAll(List.of(
+                        new Revista(null, "National Geographic en Español", "RBA Revistas", "1234-5678", new BigDecimal("29.90"), 25),
+                        new Revista(null, "Muy Interesante", "Zinet Media", "2345-6789", new BigDecimal("19.50"), 18),
+                        new Revista(null, "Historia National Geographic", "RBA Revistas", "3456-7890", new BigDecimal("24.90"), 12),
+                        new Revista(null, "Computer Hoy", "Axel Springer", "4567-8901", new BigDecimal("15.00"), 30)));
             }
         };
     }
