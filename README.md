@@ -140,6 +140,18 @@ frontend/src/app
 
 Incluye las rutas principales `/login`, `/`, `/libros` y `/revistas`. Las rutas del catalogo requieren un token JWT; el interceptor envia el token automaticamente. Los formularios de libros y revistas validan los campos obligatorios, longitud de ISBN/ISSN, precio y stock, y muestran los mensajes de error al usuario.
 
+### Consumo real de API REST
+
+Angular consume los endpoints del backend Spring Boot mediante `HttpClient` en `frontend/src/app/core/catalog.service.ts`. No utiliza datos simulados: las operaciones se realizan sobre PostgreSQL a traves de la API.
+
+| Recurso | Operaciones consumidas desde Angular |
+| --- | --- |
+| Libros | `GET`, `POST`, `PUT` y `DELETE` en `/api/libros`; busqueda JPQL con `GET /api/libros/buscar?texto=...` |
+| Revistas | `GET`, `POST`, `PUT` y `DELETE` en `/api/revistas` |
+| Autenticacion | `POST /api/auth/login` para obtener el JWT |
+
+El archivo `frontend/src/app/core/auth.interceptor.ts` agrega automaticamente el encabezado `Authorization: Bearer <token>` a las solicitudes protegidas. Como evidencia, inicia sesion en Angular, crea un libro o revista y verifica el registro en pgAdmin 4.
+
 Para ejecutarlo, primero inicia el backend en el puerto `8080`. Luego, desde otra terminal:
 
 ```powershell
